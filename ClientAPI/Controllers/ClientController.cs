@@ -32,5 +32,18 @@ namespace ClientAPI.Controllers
             return Ok(clients);
         }
 
+        [HttpPost("criar")]
+        public ActionResult<Cliente> CreateClient([FromBody] Cliente cliente)
+        {
+            if (cliente == null)
+            {
+                return BadRequest("Dados inválidos.");
+            }
+
+            _clientRepository.AddClient(cliente);
+
+            return CreatedAtAction(nameof(GetClients), new { id = cliente.Id }, cliente);
+        }
+
     }
 }
