@@ -69,5 +69,24 @@ namespace ClientAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("deletar/{id}")]
+        public ActionResult DeleteClient(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("ID inválido.");
+            }
+
+            var existingClient = _clientRepository.GetClientById(id);
+            if (existingClient == null)
+            {
+                return NotFound("Cliente não encontrado.");
+            }
+
+            _clientRepository.DeleteClient(id);
+
+            return NoContent();
+        }
+
     }
 }
