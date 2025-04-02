@@ -45,5 +45,29 @@ namespace ClientAPI.Controllers
             return CreatedAtAction(nameof(GetClients), new { id = cliente.Id }, cliente);
         }
 
+        [HttpPut("atualizar/{id}")]
+        public ActionResult UpdateClient(int id, [FromBody] Cliente cliente)
+        {
+            if (cliente == null || id <= 0)
+            {
+                return BadRequest("Dados inválidos.");
+            }
+
+            var existingClient = _clientRepository.GetClientById(id);
+            if (existingClient == null)
+            {
+                return NotFound("Cliente não encontrado.");
+            }
+
+            existingClient.Nome = cliente.Nome;
+            existingClient.Email = cliente.Email;
+            existingClient.CPF = cliente.CPF;
+            existingClient.RG = cliente.RG;
+
+            _clientRepository.UpdateClient(existingClient);
+
+            return NoContent();
+        }
+
     }
 }
