@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ClientAPI.Repositories;
 using ClientAPI.Models;
+using ClientAPI.Validators;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ClientAPI.Controllers
 {
@@ -30,13 +33,13 @@ namespace ClientAPI.Controllers
                     clients = clients.Where(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase)).ToList();
 
                 if (!string.IsNullOrEmpty(cpf))
-                    clients = clients.Where(c => c.CPF == cpf).ToList();
+                    clients = clients.Where(c => c.CPF.Equals(cpf)).ToList();
 
                 return Ok(clients);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Erro interno do servidor: " + ex.Message);
+                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
         }
 
@@ -47,6 +50,10 @@ namespace ClientAPI.Controllers
             {
                 if (cliente == null)
                     return BadRequest("Dados inválidos.");
+
+                var errors = ClientValidator.Validate(cliente);
+                if (errors.Any())
+                    return BadRequest(new { Erros = errors });
 
                 var existingClient = _clientRepository.GetAllClients()
                     .FirstOrDefault(c => c.CPF == cliente.CPF || c.Email == cliente.Email);
@@ -60,7 +67,7 @@ namespace ClientAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Erro ao criar cliente: " + ex.Message);
+                return StatusCode(500, $"Erro ao criar cliente: {ex.Message}");
             }
         }
 
@@ -76,6 +83,10 @@ namespace ClientAPI.Controllers
                 if (existingClient == null)
                     return NotFound("Cliente não encontrado.");
 
+                var errors = ClientValidator.Validate(cliente);
+                if (errors.Any())
+                    return BadRequest(new { Erros = errors });
+
                 existingClient.Nome = cliente.Nome;
                 existingClient.Email = cliente.Email;
                 existingClient.CPF = cliente.CPF;
@@ -87,7 +98,7 @@ namespace ClientAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Erro ao atualizar cliente: " + ex.Message);
+                return StatusCode(500, $"Erro ao atualizar cliente: {ex.Message}");
             }
         }
 
@@ -100,16 +111,16 @@ namespace ClientAPI.Controllers
                     return BadRequest("ID inválido.");
 
                 var existingClient = _clientRepository.GetClientById(id);
-                if (existingClient == null) 
-                    return NotFound("Cliente não encontrado. ");
+                if (existingClient == null)
+                    return NotFound("Cliente não encontrado.");
 
                 _clientRepository.DeleteClient(id);
 
-                return Ok("Cliente removido com sucesso. ");
+                return Ok("Cliente removido com sucesso.");
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Erro ao deletar cliente: " + ex.Message);
+                return StatusCode(500, $"Erro ao deletar cliente: {ex.Message}");
             }
         }
     }
