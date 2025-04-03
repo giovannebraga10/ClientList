@@ -1,9 +1,12 @@
 ﻿using System.Text.Json;
+using ClientAPI.Domain.Models;
+using ClientAPI.Domain.Interfaces;
 using ClientAPI.Models;
+using ErrorOr;
 
-namespace ClientAPI.Repositories
+namespace ClientAPI.Infrastructure.Repositories
 {
-    public class ClientRepository
+    public class ClientRepository : IClientRepository
     {
         private readonly string _filePath = "Data/clients.json";
 
@@ -24,12 +27,22 @@ namespace ClientAPI.Repositories
             File.WriteAllText(_filePath, json);
         }
 
-        public void AddClient(Cliente client)
+        public ErrorOr<Cliente> AddClient(Cliente client)
         {
             var clients = GetAllClients();
-            client.Id = clients.Any() ? clients.Max(c => c.Id) + 1 : 1;
-            clients.Add(client);
+            int newId = clients.Any() ? clients.Max(c => c.Id) + 1 : 1;
+
+            var result = Cliente.Create(newId, client.Nome, client.Email, client.CPF, client.RG);
+
+            if (result.IsError)
+            {
+                return result.Errors;
+            }
+
+            clients.Add(result.Value);
             SaveAllClients(clients);
+
+            return result.Value;
         }
 
         public Cliente? GetClientById(int id)

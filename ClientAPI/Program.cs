@@ -1,4 +1,4 @@
-using ClientAPI.Repositories;
+using ClientAPI.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
