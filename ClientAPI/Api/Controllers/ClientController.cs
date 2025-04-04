@@ -20,11 +20,12 @@ namespace ClientAPI.Presentation.Controllers
         {
             var clientDto = new ClienteDto
             {
-
                 Nome = requestDto.Nome,
                 Email = requestDto.Email,
                 CPF = requestDto.CPF,
-                RG = requestDto.RG
+                RG = requestDto.RG,
+                Contatos = requestDto.Contatos,
+                Enderecos = requestDto.Enderecos
             };
 
             var result = _clientService.AddClient(clientDto);
@@ -42,6 +43,14 @@ namespace ClientAPI.Presentation.Controllers
             if (result.IsError) return NotFound(result.Errors);
 
             return Ok(result.Value);
+        }
+
+        [HttpGet]
+        public IActionResult GetAllClients()
+        {
+            var result = _clientService.GetAllClients();
+
+            return Ok(result);
         }
 
         [HttpPut("{id}")]

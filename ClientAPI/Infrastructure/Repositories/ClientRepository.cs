@@ -3,12 +3,13 @@ using ClientAPI.Domain.Models;
 using ClientAPI.Domain.Interfaces;
 using ClientAPI.Models;
 using ErrorOr;
+using ClientAPI.Application.DTOS;
 
 namespace ClientAPI.Infrastructure.Repositories
 {
     public class ClientRepository : IClientRepository
     {
-        private readonly string _filePath = "Data/clients.json";
+        private readonly string _filePath = "Infrastructure/Data/clients.json";
 
         public List<Cliente> GetAllClients()
         {
@@ -27,12 +28,12 @@ namespace ClientAPI.Infrastructure.Repositories
             File.WriteAllText(_filePath, json);
         }
 
-        public ErrorOr<Cliente> AddClient(Cliente client)
+        public ErrorOr<Cliente> AddClient(string nome, string email, string cpf, string rg, List<ContatoDto> contato, List<EnderecoDto> endereco)
         {
             var clients = GetAllClients();
             int newId = clients.Any() ? clients.Max(c => c.Id) + 1 : 1;
 
-            var result = Cliente.Create(newId, client.Nome, client.Email, client.CPF, client.RG);
+            var result = Cliente.Create(newId, nome, email, cpf, rg, contato, endereco);
 
             if (result.IsError)
             {
@@ -44,6 +45,7 @@ namespace ClientAPI.Infrastructure.Repositories
 
             return result.Value;
         }
+
 
         public Cliente? GetClientById(int id)
         {

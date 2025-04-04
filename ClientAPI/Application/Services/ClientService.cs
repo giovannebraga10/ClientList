@@ -35,14 +35,34 @@ namespace ClientAPI.Application
 
         public ErrorOr<ClienteDto> AddClient(ClienteDto clientDto)
         {
-            var clientResult = Cliente.Create(clientDto.Id, clientDto.Nome, clientDto.Email, clientDto.CPF, clientDto.RG);
+            var clientResult = _clientRepository.AddClient(
+                clientDto.Nome,
+                clientDto.Email,
+                clientDto.CPF,
+                clientDto.RG,
+                clientDto.Contatos,
+                clientDto.Enderecos
+            );
 
             if (clientResult.IsError)
                 return clientResult.Errors;
 
-            _clientRepository.AddClient(clientResult.Value);
-            return (ClienteDto)clientResult.Value;
+            var cliente = clientResult.Value;
+
+            var clienteDto = new ClienteDto
+            {
+                Id = cliente.Id,
+                Nome = cliente.Nome,
+                Email = cliente.Email,
+                CPF = cliente.CPF,
+                RG = cliente.RG
+            };
+
+            return clienteDto;
         }
+
+
+
 
         public ErrorOr<ClienteDto> UpdateClient(ClienteDto updatedClientDto)
         {
@@ -50,7 +70,7 @@ namespace ClientAPI.Application
             if (existingClient is null)
                 return Error.NotFound("Cliente não encontrado");
 
-            var clientResult = Cliente.Create(updatedClientDto.Id, updatedClientDto.Nome, updatedClientDto.Email, updatedClientDto.CPF, updatedClientDto.RG);
+            var clientResult = Cliente.Create(updatedClientDto.Id, updatedClientDto.Nome, updatedClientDto.Email, updatedClientDto.CPF, updatedClientDto.RG, updatedClientDto.Contatos, updatedClientDto.Enderecos);
 
             if (clientResult.IsError)
                 return clientResult.Errors;

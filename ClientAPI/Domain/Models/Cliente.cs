@@ -1,20 +1,20 @@
+using ClientAPI.Application.DTOS;
 using ClientAPI.Domain.Models;
 using ErrorOr;
-using System.Runtime.CompilerServices;
 
 namespace ClientAPI.Models
 {
     public class Cliente
     {
-        public int Id { get; private set; }
-        public string Nome { get; private set; }
-        public string Email { get; private set; }
-        public string CPF { get; private set; }
-        public string RG { get; private set; }
-        public List<Contato> Contatos { get; private set; } = new List<Contato>();
-        public List<Endereco> Enderecos { get; private set; } = new List<Endereco>();
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string CPF { get; set; } = string.Empty;
+        public string RG { get; set; } = string.Empty;
+        public List<Contato> Contatos { get; set; } = new();
+        public List<Endereco> Enderecos { get; set; } = new();
 
-        public static ErrorOr<Cliente> Create(int id, string nome, string email, string cpf, string rg)
+        public static ErrorOr<Cliente> Create(int id, string nome, string email, string cpf, string rg, List<ContatoDto> contato, List<EnderecoDto> endereco)
         {
             var cliente = new Cliente();
 
@@ -23,20 +23,35 @@ namespace ClientAPI.Models
             var cpfResult = cliente.ValidateCPF(cpf);
             var rgResult = cliente.ValidateRG(rg);
 
-            if (nomeResult.IsError || emailResult.IsError || cpfResult.IsError || rgResult.IsError)
+            var allErrors = new List<Error>();
+
+            if (nomeResult.IsError) allErrors.AddRange(nomeResult.Errors);
+            if (emailResult.IsError) allErrors.AddRange(emailResult.Errors);
+            if (cpfResult.IsError) allErrors.AddRange(cpfResult.Errors);
+            if (rgResult.IsError) allErrors.AddRange(rgResult.Errors);
+
+            foreach (var c in contato)
             {
-                return nomeResult.Errors
-                    .Concat(emailResult.Errors)
-                    .Concat(cpfResult.Errors)
-                    .Concat(rgResult.Errors)
-                    .ToList();
+                var contatoResult = cliente.ValidateContact(c.ToEntity());
+                if (contatoResult.IsError) allErrors.AddRange(contatoResult.Errors);
             }
+
+            foreach (var e in endereco)
+            {
+                var enderecoResult = cliente.ValidateAddress(e.ToEntity());
+                if (enderecoResult.IsError) allErrors.AddRange(enderecoResult.Errors);
+            }
+
+            if (allErrors.Any())
+                return allErrors;
 
             cliente.Id = id;
             cliente.Nome = nome;
             cliente.Email = email;
             cliente.CPF = cpf;
             cliente.RG = rg;
+            cliente.Contatos = contato.Select(c => c.ToEntity()).ToList();
+            cliente.Enderecos = endereco.Select(e => e.ToEntity()).ToList();
 
             return cliente;
         }
@@ -66,73 +81,67 @@ namespace ClientAPI.Models
         public ErrorOr<Cliente> ValidateName(string nome)
         {
             var validationResult = ClientValidator.ValidateName(nome);
-
-            if (validationResult.IsError)
-            {
-                return validationResult.Errors;
-            }
-
-            return this;
+            return validationResult.IsError ? validationResult.Errors : this;
         }
 
         public ErrorOr<Cliente> ValidateEmail(string email)
         {
             var validationResult = ClientValidator.ValidateEmail(email);
-
-            if (validationResult.IsError)
-            {
-                return validationResult.Errors;
-            }
-
-            return this;
+            return validationResult.IsError ? validationResult.Errors : this;
         }
 
         public ErrorOr<Cliente> ValidateCPF(string cpf)
         {
             var validationResult = ClientValidator.ValidateCPF(cpf);
-
-            if (validationResult.IsError)
-            {
-                return validationResult.Errors;
-            }
-
-            return this;
+            return validationResult.IsError ? validationResult.Errors : this;
         }
 
         public ErrorOr<Cliente> ValidateRG(string rg)
         {
             var validationResult = ClientValidator.ValidateRG(rg);
-
-            if (validationResult.IsError)
-            {
-                return validationResult.Errors;
-            }
-
-            return this;
+            return validationResult.IsError ? validationResult.Errors : this;
         }
 
         public ErrorOr<Cliente> ValidateAddress(Endereco endereco)
         {
             var validationResult = ClientValidator.ValidateAddress(endereco);
-
-            if (validationResult.IsError)
-            {
-                return validationResult.Errors;
-            }
-
-            return this;
+            return validationResult.IsError ? validationResult.Errors : this;
         }
 
         public ErrorOr<Cliente> ValidateContact(Contato contato)
         {
             var validationResult = ClientValidator.ValidateContact(contato);
+            return validationResult.IsError ? validationResult.Errors : this;
+        }
+    }
 
-            if (validationResult.IsError)
+    public static class DtoExtensions
+    {
+        public static Contato ToEntity(this ContatoDto dto)
+        {
+            return new Contato
             {
-                return validationResult.Errors;
-            }
+                Tipo = dto.Tipo,
+                DDD = dto.DDD,
+                Telefone = dto.Telefone
+            };
+        }
 
-            return this;
+        public static Endereco ToEntity(this EnderecoDto dto)
+        {
+            return new Endereco
+            {
+                Id = dto.Id,
+                Tipo = dto.Tipo,
+                CEP = dto.CEP,
+                Logradouro = dto.Logradouro,
+                Numero = dto.Numero,
+                Bairro = dto.Bairro,
+                Complemento = dto.Complemento,
+                Cidade = dto.Cidade,
+                Estado = dto.Estado,
+                Referencia = dto.Referencia
+            };
         }
     }
 }

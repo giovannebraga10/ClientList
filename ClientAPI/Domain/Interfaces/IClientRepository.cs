@@ -1,4 +1,6 @@
-﻿using ClientAPI.Models;
+﻿using ClientAPI.Application.DTOS;
+using ClientAPI.Domain.Models;
+using ClientAPI.Models;
 using ErrorOr;
 
 namespace ClientAPI.Domain.Interfaces
@@ -7,7 +9,7 @@ namespace ClientAPI.Domain.Interfaces
     {
         List<Cliente> GetAllClients();
         Cliente? GetClientById(int id);
-        ErrorOr<Cliente> AddClient(Cliente client);
+        ErrorOr<Cliente> AddClient(string nome, string email, string cpf, string rg, List<ContatoDto> contato, List<EnderecoDto> endereco);
         void UpdateClient(Cliente updatedClient);
         void DeleteClient(int id);
     }

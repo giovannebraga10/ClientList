@@ -1,234 +1,85 @@
-{
-  "clientes": [
-    {
-      "id": 1,
-      "nome": "João Silva",
-      "email": "joao.silva@example.com",
-      "cpf": "12345678900",
-      "rg": "1234567",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(11) 91234-5678"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Rua das Flores",
-          "numero": 123,
-          "bairro": "Centro",
-          "cidade": "São Paulo",
-          "estado": "SP",
-          "cep": "01001-000"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "nome": "Maria Souza",
-      "email": "maria.souza@example.com",
-      "cpf": "98765432100",
-      "rg": "7654321",
-      "contatos": [
-        {
-          "tipo": "Telefone Fixo",
-          "valor": "(11) 3232-4545"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Avenida Paulista",
-          "numero": 1000,
-          "bairro": "Bela Vista",
-          "cidade": "São Paulo",
-          "estado": "SP",
-          "cep": "01310-100"
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "nome": "Carlos Pereira",
-      "email": "carlos.pereira@example.com",
-      "cpf": "11122233344",
-      "rg": "111222333",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(21) 98765-4321"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Rua dos Bobos",
-          "numero": 0,
-          "bairro": "Centro",
-          "cidade": "Rio de Janeiro",
-          "estado": "RJ",
-          "cep": "20000-000"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "nome": "Ana Oliveira",
-      "email": "ana.oliveira@example.com",
-      "cpf": "55566677788",
-      "rg": "555666777",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(31) 91234-5678"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Rua Principal",
-          "numero": 456,
-          "bairro": "Centro",
-          "cidade": "Belo Horizonte",
-          "estado": "MG",
-          "cep": "30100-000"
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "nome": "Paulo Gomes",
-      "email": "paulo.gomes@example.com",
-      "cpf": "99988877766",
-      "rg": "999888777",
-      "contatos": [
-        {
-          "tipo": "Telefone Fixo",
-          "valor": "(41) 3232-1212"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Rua Curitiba",
-          "numero": 789,
-          "bairro": "Centro",
-          "cidade": "Curitiba",
-          "estado": "PR",
-          "cep": "80000-000"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "nome": "Fernanda Lima",
-      "email": "fernanda.lima@example.com",
-      "cpf": "22233344455",
-      "rg": "222333444",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(51) 98765-4321"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Av. Brasil",
-          "numero": 101,
-          "bairro": "Centro",
-          "cidade": "Porto Alegre",
-          "estado": "RS",
-          "cep": "90000-000"
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "nome": "Lucas Almeida",
-      "email": "lucas.almeida@example.com",
-      "cpf": "11144477700",
-      "rg": "111444777",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(61) 91234-5678"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Esplanada",
-          "numero": 1,
-          "bairro": "Centro",
-          "cidade": "Brasília",
-          "estado": "DF",
-          "cep": "70000-000"
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "nome": "Juliana Mendes",
-      "email": "juliana.mendes@example.com",
-      "cpf": "77788899911",
-      "rg": "777888999",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(71) 98765-4321"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Rua Bahia",
-          "numero": 234,
-          "bairro": "Centro",
-          "cidade": "Salvador",
-          "estado": "BA",
-          "cep": "40000-000"
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "nome": "Thiago Rocha",
-      "email": "thiago.rocha@example.com",
-      "cpf": "33355577799",
-      "rg": "333555777",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(81) 91234-5678"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Rua Pernambuco",
-          "numero": 678,
-          "bairro": "Centro",
-          "cidade": "Recife",
-          "estado": "PE",
-          "cep": "50000-000"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "nome": "Renata Martins",
-      "email": "renata.martins@example.com",
-      "cpf": "55566677788",
-      "rg": "555666777",
-      "contatos": [
-        {
-          "tipo": "Celular",
-          "valor": "(85) 98765-4321"
-        }
-      ],
-      "enderecos": [
-        {
-          "rua": "Av. Beira Mar",
-          "numero": 321,
-          "bairro": "Praia",
-          "cidade": "Fortaleza",
-          "estado": "CE",
-          "cep": "60000-000"
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "Id": 1,
+    "Nome": "Jo\u00E3o Silva",
+    "Email": "joao.silva@example.com",
+    "CPF": "123.456.789-00",
+    "RG": "12.345.670-0",
+    "Contatos": [],
+    "Enderecos": []
+  },
+  {
+    "Id": 3,
+    "Nome": "Maria Oliveira",
+    "Email": "maria.oliveira@example.com",
+    "CPF": "987.654.321-00",
+    "RG": "98.765.432-1",
+    "Contatos": [],
+    "Enderecos": []
+  },
+  {
+    "Id": 4,
+    "Nome": "Maria Oliveira",
+    "Email": "maria.oliveira@example.com",
+    "CPF": "987.654.321-00",
+    "RG": "98.765.432-1",
+    "Contatos": [],
+    "Enderecos": []
+  },
+  {
+    "Id": 5,
+    "Nome": "Maria Oliveira",
+    "Email": "maria.oliveira@example.com",
+    "CPF": "987.654.321-00",
+    "RG": "98.765.432-1",
+    "Contatos": [],
+    "Enderecos": []
+  },
+  {
+    "Id": 6,
+    "Nome": "Jo\u00E3o da Silva",
+    "Email": "joao.silva@example.com",
+    "CPF": "123.456.789-00",
+    "RG": "12.345.678-9",
+    "Contatos": [
+      {
+        "Id": 0,
+        "Tipo": "Celular",
+        "DDD": 11,
+        "Telefone": 912345678
+      },
+      {
+        "Id": 0,
+        "Tipo": "Residencial",
+        "DDD": 11,
+        "Telefone": 40028922
+      }
+    ],
+    "Enderecos": [
+      {
+        "Id": 0,
+        "Tipo": "Residencial",
+        "CEP": "01001-000",
+        "Logradouro": "Rua das Flores",
+        "Numero": 123,
+        "Bairro": "Centro",
+        "Complemento": "Apartamento 12",
+        "Cidade": "S\u00E3o Paulo",
+        "Estado": "SP",
+        "Referencia": "Pr\u00F3ximo ao mercado"
+      },
+      {
+        "Id": 0,
+        "Tipo": "Comercial",
+        "CEP": "04567-000",
+        "Logradouro": "Avenida Paulista",
+        "Numero": 1000,
+        "Bairro": "Bela Vista",
+        "Complemento": "Sala 101",
+        "Cidade": "S\u00E3o Paulo",
+        "Estado": "SP",
+        "Referencia": "Pr\u00F3ximo ao metr\u00F4 Trianon"
+      }
+    ]
+  }
+]
